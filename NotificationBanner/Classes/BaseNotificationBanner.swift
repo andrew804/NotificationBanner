@@ -19,12 +19,6 @@
 import UIKit
 import SnapKit
 
-#if CARTHAGE_CONFIG
-    import MarqueeLabelSwift
-#else
-    import MarqueeLabel
-#endif
-
 public protocol NotificationBannerDelegate: class {
     func notificationBannerWillAppear(_ banner: BaseNotificationBanner)
     func notificationBannerDidAppear(_ banner: BaseNotificationBanner)
@@ -70,11 +64,7 @@ public class BaseNotificationBanner: UIView {
     public internal(set) var titleLabel: UILabel?
     
     /// The time before the notificaiton is automatically dismissed
-    public var duration: TimeInterval = 5.0 {
-        didSet {
-            updateMarqueeLabelsDurations()
-        }
-    }
+    public var duration: TimeInterval = 5.0
     
     /// If false, the banner will not be dismissed until the developer programatically dismisses it
     public var autoDismiss: Bool = true {
@@ -513,12 +503,6 @@ public class BaseNotificationBanner: UIView {
         return NotificationBannerUtilities.isNotchFeaturedIPhone()
             && UIApplication.shared.statusBarOrientation.isPortrait
             && (self.parentViewController?.navigationController?.isNavigationBarHidden ?? true)
-    }
-    /**
-        Updates the scrolling marquee label duration
-    */
-    internal func updateMarqueeLabelsDurations() {
-        (titleLabel as? MarqueeLabel)?.speed = .duration(CGFloat(duration - 3))
     }
 }
 

@@ -19,17 +19,11 @@
 import UIKit
 import SnapKit
 
-#if CARTHAGE_CONFIG
-    import MarqueeLabelSwift
-#else
-    import MarqueeLabel
-#endif
-
 @objcMembers
 public class NotificationBanner: BaseNotificationBanner {
     
     /// The bottom most label of the notification if a subtitle is provided
-    public private(set) var subtitleLabel: MarqueeLabel?
+    public private(set) var subtitleLabel: UILabel?
     
     /// The view that is presented on the left side of the notification
     private var leftView: UIView?
@@ -78,8 +72,7 @@ public class NotificationBanner: BaseNotificationBanner {
         contentView.addSubview(labelsView)
         
         if let title = title {
-            titleLabel = MarqueeLabel()
-            (titleLabel as! MarqueeLabel).type = .left
+            titleLabel = UILabel()
             titleLabel!.font = titleFont
             titleLabel!.textColor = .white
             titleLabel!.text = title
@@ -98,8 +91,7 @@ public class NotificationBanner: BaseNotificationBanner {
         }
         
         if let subtitle = subtitle {
-            subtitleLabel = MarqueeLabel()
-            subtitleLabel!.type = .left
+            subtitleLabel = UILabel()
             subtitleLabel!.font = subtitleFont
             subtitleLabel!.numberOfLines = 1
             subtitleLabel!.textColor = .white
@@ -141,9 +133,6 @@ public class NotificationBanner: BaseNotificationBanner {
                 make.bottom.equalTo(titleLabel!)
             }
         }
-        
-        updateMarqueeLabelsDurations()
-        
     }
     
     public convenience init(attributedTitle: NSAttributedString,
@@ -172,12 +161,6 @@ public class NotificationBanner: BaseNotificationBanner {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    internal override func updateMarqueeLabelsDurations() {
-        super.updateMarqueeLabelsDurations()
-        subtitleLabel?.speed = .duration(CGFloat(duration - 3))
-    }
-    
 }
 
 public extension NotificationBanner {
